@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Mastery — Find Your Level</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+–bg: #0a0a0f;
+–surface: #12121a;
+–surface2: #1a1a26;
+–accent: #7b61ff;
+–accent2: #ff6b6b;
+–accent3: #00d9a3;
+–text: #e8e8f0;
+–muted: #6b6b8a;
+–border: rgba(123, 97, 255, 0.2);
+–glow: rgba(123, 97, 255, 0.15);
+}
+
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+background: var(–bg);
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+min-height: 100vh;
+overflow-x: hidden;
+}
+
+/* Animated background */
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background:
+radial-gradient(ellipse 60% 50% at 20% 20%, rgba(123,97,255,0.08) 0%, transparent 60%),
+radial-gradient(ellipse 40% 60% at 80% 80%, rgba(0,217,163,0.06) 0%, transparent 60%),
+radial-gradient(ellipse 50% 40% at 60% 10%, rgba(255,107,107,0.05) 0%, transparent 50%);
+pointer-events: none;
+z-index: 0;
+}
+
+.container {
+position: relative;
+z-index: 1;
+max-width: 820px;
+margin: 0 auto;
+padding: 2rem 1.5rem 6rem;
+}
+
+/* SCREEN MANAGEMENT */
+.screen { display: none; animation: fadeSlide 0.4s ease; }
+.screen.active { display: block; }
+@keyframes fadeSlide {
+from { opacity: 0; transform: translateY(16px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* HEADER */
+.logo {
+font-family: ‘Syne’, sans-serif;
+font-size: 0.75rem;
+font-weight: 700;
+letter-spacing: 0.2em;
+color: var(–accent);
+text-transform: uppercase;
+margin-bottom: 4rem;
+display: flex;
+align-items: center;
+gap: 0.5rem;
+}
+.logo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(–accent); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.5); } }
+
+/* HERO */
+.hero-tag {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.7rem;
+color: var(–accent3);
+letter-spacing: 0.15em;
+text-transform: uppercase;
+margin-bottom: 1rem;
+}
+h1 {
+font-family: ‘Syne’, sans-serif;
+font-size: clamp(2.4rem, 6vw, 4rem);
+font-weight: 800;
+line-height: 1.05;
+margin-bottom: 1.5rem;
+background: linear-gradient(135deg, #fff 30%, var(–accent) 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+.hero-sub {
+font-size: 1.05rem;
+color: var(–muted);
+line-height: 1.7;
+max-width: 560px;
+margin-bottom: 2.5rem;
+}
+.hero-sub strong { color: var(–text); font-weight: 500; }
+
+/* ADHD badge */
+.adhd-badge {
+display: inline-flex;
+align-items: center;
+gap: 0.5rem;
+background: rgba(255,107,107,0.1);
+border: 1px solid rgba(255,107,107,0.3);
+border-radius: 100px;
+padding: 0.4rem 1rem;
+font-size: 0.78rem;
+color: var(–accent2);
+font-family: ‘DM Mono’, monospace;
+margin-bottom: 2.5rem;
+letter-spacing: 0.05em;
+}
+
+/* BUTTONS */
+.btn {
+display: inline-flex;
+align-items: center;
+gap: 0.6rem;
+padding: 0.9rem 2rem;
+border-radius: 10px;
+font-family: ‘Syne’, sans-serif;
+font-weight: 600;
+font-size: 0.95rem;
+cursor: pointer;
+border: none;
+transition: all 0.2s ease;
+text-decoration: none;
+}
+.btn-primary {
+background: var(–accent);
+color: #fff;
+box-shadow: 0 0 30px rgba(123,97,255,0.3);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(123,97,255,0.5); }
+.btn-ghost {
+background: transparent;
+color: var(–muted);
+border: 1px solid var(–border);
+}
+.btn-ghost:hover { color: var(–text); border-color: rgba(123,97,255,0.5); }
+.btn-sm { padding: 0.6rem 1.3rem; font-size: 0.85rem; }
+
+/* ASSESSMENT */
+.assessment-header {
+margin-bottom: 2rem;
+}
+.progress-bar-wrap {
+background: var(–surface2);
+border-radius: 100px;
+height: 4px;
+margin-bottom: 0.5rem;
+overflow: hidden;
+}
+.progress-bar-fill {
+height: 100%;
+background: linear-gradient(90deg, var(–accent), var(–accent3));
+border-radius: 100px;
+transition: width 0.4s ease;
+}
+.progress-label {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.7rem;
+color: var(–muted);
+letter-spacing: 0.1em;
+}
+
+.question-card {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 16px;
+padding: 2rem;
+margin-bottom: 1.5rem;
+}
+.question-num {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.68rem;
+color: var(–accent);
+letter-spacing: 0.15em;
+text-transform: uppercase;
+margin-bottom: 0.75rem;
+}
+.question-text {
+font-family: ‘Syne’, sans-serif;
+font-size: 1.15rem;
+font-weight: 600;
+line-height: 1.4;
+margin-bottom: 1.5rem;
+}
+.options { display: flex; flex-direction: column; gap: 0.6rem; }
+.option {
+display: flex;
+align-items: flex-start;
+gap: 1rem;
+padding: 0.9rem 1.1rem;
+border: 1px solid rgba(255,255,255,0.07);
+border-radius: 10px;
+cursor: pointer;
+transition: all 0.18s ease;
+background: transparent;
+text-align: left;
+color: var(–text);
+font-size: 0.92rem;
+line-height: 1.5;
+font-family: ‘DM Sans’, sans-serif;
+}
+.option:hover { border-color: var(–accent); background: rgba(123,97,255,0.07); }
+.option.selected { border-color: var(–accent); background: rgba(123,97,255,0.12); }
+.option.correct { border-color: var(–accent3); background: rgba(0,217,163,0.1); }
+.option.wrong { border-color: var(–accent2); background: rgba(255,107,107,0.1); }
+.option-letter {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.72rem;
+color: var(–muted);
+min-width: 18px;
+padding-top: 2px;
+}
+
+/* RESULTS */
+.level-card {
+border-radius: 20px;
+padding: 2.5rem;
+margin: 2rem 0;
+position: relative;
+overflow: hidden;
+}
+.level-card::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+opacity: 0.08;
+border-radius: 20px;
+}
+.level-explorer .level-card::before { background: var(–accent3); }
+.level-navigator .level-card::before { background: var(–accent); }
+.level-operator .level-card::before { background: var(–accent2); }
+
+.level-badge {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.68rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+margin-bottom: 0.5rem;
+}
+.level-name {
+font-family: ‘Syne’, sans-serif;
+font-size: 2rem;
+font-weight: 800;
+margin-bottom: 0.75rem;
+}
+.level-desc { color: var(–muted); line-height: 1.7; font-size: 0.95rem; }
+
+/* CURRICULUM */
+.module {
+background: var(–surface);
+border: 1px solid var(–border);
+border-radius: 14px;
+margin-bottom: 0.8rem;
+overflow: hidden;
+transition: border-color 0.2s;
+}
+.module:hover { border-color: rgba(123,97,255,0.4); }
+.module-header {
+display: flex;
+align-items: center;
+gap: 1rem;
+padding: 1.2rem 1.5rem;
+cursor: pointer;
+}
+.module-num {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.7rem;
+color: var(–accent);
+min-width: 30px;
+}
+.module-title {
+font-family: ‘Syne’, sans-serif;
+font-weight: 700;
+font-size: 0.95rem;
+flex: 1;
+}
+.module-tag {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.62rem;
+padding: 0.25rem 0.6rem;
+border-radius: 100px;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+}
+.tag-chat { background: rgba(123,97,255,0.15); color: var(–accent); }
+.tag-code { background: rgba(0,217,163,0.12); color: var(–accent3); }
+.tag-cowork { background: rgba(255,107,107,0.12); color: var(–accent2); }
+.tag-embed { background: rgba(255,200,50,0.1); color: #ffc832; }
+
+.module-body {
+display: none;
+padding: 0 1.5rem 1.5rem;
+border-top: 1px solid var(–border);
+}
+.module-body.open { display: block; }
+.lesson-list { list-style: none; margin-top: 1rem; }
+.lesson-list li {
+display: flex;
+align-items: flex-start;
+gap: 0.75rem;
+padding: 0.6rem 0;
+font-size: 0.88rem;
+color: var(–muted);
+border-bottom: 1px solid rgba(255,255,255,0.04);
+line-height: 1.5;
+}
+.lesson-list li:last-child { border-bottom: none; }
+.lesson-icon { font-size: 0.85rem; min-width: 18px; }
+.lesson-note {
+margin-top: 1rem;
+padding: 0.85rem 1rem;
+background: rgba(123,97,255,0.06);
+border-left: 3px solid var(–accent);
+border-radius: 0 8px 8px 0;
+font-size: 0.82rem;
+color: var(–muted);
+line-height: 1.6;
+}
+.lesson-note strong { color: var(–accent); }
+
+/* SECTION HEADINGS */
+.section-label {
+font-family: ‘DM Mono’, monospace;
+font-size: 0.68rem;
+color: var(–accent);
+letter-spacing: 0.2em;
+text-transform: uppercase;
+margin: 2.5rem 0 1rem;
+}
+h2 {
+font-family: ‘Syne’, sans-serif;
+font-size: 1.6rem;
+font-weight: 800;
+margin-bottom: 0.5rem;
+}
+.sub-text { color: var(–muted); font-size: 0.92rem; line-height: 1.6; margin-bottom: 2rem; }
+
+/* ADHD TIPS */
+.adhd-tip {
+display: flex;
+gap: 1rem;
+background: rgba(255,107,107,0.06);
+border: 1px solid rgba(255,107,107,0.15);
+border-radius: 12px;
+padding: 1.1rem 1.3rem;
+margin-bottom: 0.75rem;
+}
+.adhd-tip-icon { font-size: 1.1rem; min-width: 24px; }
+.adhd-tip-text { font-size: 0.85rem; color: var(–muted); line-height: 1.6; }
+.adhd-tip-text strong { color: var(–accent2); }
+
+/* SCORE DISPLAY */
+.score-ring {
+width: 100px;
+height: 100px;
+border-radius: 50%;
+border: 4px solid var(–surface2);
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+margin: 0 auto 1.5rem;
+position: relative;
+font-family: ‘Syne’, sans-serif;
+font-size: 1.6rem;
+font-weight: 800;
+}
+.score-label { font-size: 0.6rem; font-family: ‘DM Mono’, monospace; color: var(–muted); letter-spacing: 0.1em; }
+
+.btn-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 2rem; }
+
+hr.divider {
+border: none;
+border-top: 1px solid var(–border);
+margin: 2.5rem 0;
+}
+
+/* Chevron */
+.chevron {
+transition: transform 0.2s;
+color: var(–muted);
+font-size: 0.75rem;
+}
+.chevron.open { transform: rotate(180deg); }
+
+.skipped-notice {
+background: rgba(255,200,50,0.07);
+border: 1px solid rgba(255,200,50,0.2);
+border-radius: 10px;
+padding: 0.85rem 1.1rem;
+font-size: 0.84rem;
+color: #ffc832;
+margin-bottom: 1.5rem;
+font-family: ‘DM Mono’, monospace;
+letter-spacing: 0.03em;
+}
+</style>
+
+</head>
+<body>
+<div class="container">
+
+  <!-- SCREEN 1: LANDING -->
+
+  <div class="screen active" id="screen-landing">
+    <div class="logo"><div class="logo-dot"></div> Claude Mastery</div>
+
+```
+<div class="hero-tag">⚡ Adaptive Learning Path</div>
+<h1>Master Every<br>Layer of Claude</h1>
+<p class="hero-sub">
+  From <strong>Chat prompting</strong> to <strong>Claude Code</strong> to <strong>Cowork</strong> — 
+  this course meets you exactly where you are. No filler, no fluff, no repeating things you already know.
+</p>
+
+<div class="adhd-badge">
+  ⚡ ADHD-Optimised · Short bursts · High novelty · Hyperfocus-friendly
+</div>
+
+<p class="hero-sub" style="margin-top: 0;">
+  We'll start with a <strong>5-minute skill check</strong> to calibrate your path. 
+  Then you get a custom curriculum — skipping what you already know, 
+  diving deep where it matters.
+</p>
+
+<div class="btn-row">
+  <button class="btn btn-primary" onclick="startAssessment()">
+    ⚡ Start Skill Check
+  </button>
+  <button class="btn btn-ghost" onclick="skipToResults('navigator')">
+    Skip — I know basics
+  </button>
+</div>
+```
+
+  </div>
+
+  <!-- SCREEN 2: ASSESSMENT -->
+
+  <div class="screen" id="screen-assessment">
+    <div class="logo"><div class="logo-dot"></div> Claude Mastery</div>
+
+```
+<div class="assessment-header">
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress-fill" style="width: 0%"></div>
+  </div>
+  <div class="progress-label" id="progress-label">Question 1 of 10</div>
+</div>
+
+<div id="question-area"></div>
+
+<div class="btn-row">
+  <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()" style="display:none;">
+    Next →
+  </button>
+  <button class="btn btn-ghost btn-sm" onclick="skipQuestion()">
+    Skip this one
+  </button>
+</div>
+```
+
+  </div>
+
+  <!-- SCREEN 3: RESULTS + CURRICULUM -->
+
+  <div class="screen" id="screen-results">
+    <div class="logo"><div class="logo-dot"></div> Claude Mastery</div>
+
+```
+<div class="section-label">Your Results</div>
+<div id="level-card-area"></div>
+
+<hr class="divider">
+
+<div class="section-label">Your Custom Curriculum</div>
+<h2>Your Learning Path</h2>
+<p class="sub-text" id="curriculum-intro"></p>
+
+<div id="adhd-tips-area"></div>
+
+<div id="curriculum-area"></div>
+
+<hr class="divider">
+
+<div class="section-label">Next Steps</div>
+<div class="adhd-tip">
+  <div class="adhd-tip-icon">🎯</div>
+  <div class="adhd-tip-text"><strong>Recommended first session:</strong> Module 1, Lesson 1. Set a timer for 25 minutes. If you hit hyperfocus — ride it. If not, stop at 25 and come back.</div>
+</div>
+<div class="adhd-tip">
+  <div class="adhd-tip-icon">📌</div>
+  <div class="adhd-tip-text"><strong>Save this page</strong> — it's your personal curriculum. Bookmark it or screenshot the module list.</div>
+</div>
+<div class="adhd-tip">
+  <div class="adhd-tip-icon">🔁</div>
+  <div class="adhd-tip-text"><strong>Bored? Jump ahead.</strong> This course is designed to be non-linear. Each module is self-contained. Follow your curiosity.</div>
+</div>
+
+<div class="btn-row" style="margin-top: 2rem;">
+  <button class="btn btn-ghost btn-sm" onclick="retake()">↩ Retake Assessment</button>
+</div>
+```
+
+  </div>
+
+</div>
+
+<script>
+const questions = [
+  {
+    text: "When you write a prompt to Claude, you typically...",
+    options: [
+      "Type a quick question and hit enter",
+      "Write a sentence or two with some context",
+      "Use structured prompts with roles, context, and explicit output format",
+      "Write system prompts with constraints, personas, and multi-step instructions"
+    ],
+    scores: [0, 1, 2, 3]
+  },
+  {
+    text: "What is a 'system prompt' in the context of Claude?",
+    options: [
+      "The first message you send to Claude",
+      "A background instruction that shapes Claude's behaviour before the conversation begins",
+      "A special command that resets the conversation",
+      "The model version Claude is running on"
+    ],
+    scores: [0, 3, 0, 0]
+  },
+  {
+    text: "Have you ever used Claude via the API (not the website)?",
+    options: [
+      "No — I only use claude.ai",
+      "I've seen it mentioned but never tried",
+      "Yes, I've made API calls using curl or a programming language",
+      "Yes, and I've built something with it"
+    ],
+    scores: [0, 0, 2, 3]
+  },
+  {
+    text: "Claude Code is...",
+    options: [
+      "Claude's ability to write code in Chat",
+      "A VS Code extension",
+      "A terminal-based agentic coding tool that can read, write and run code autonomously",
+      "A plugin for GitHub Copilot"
+    ],
+    scores: [0, 1, 3, 0]
+  },
+  {
+    text: "Which of these is NOT a real Claude product?",
+    options: [
+      "Claude in Chrome",
+      "Claude in Excel",
+      "Claude in Figma",
+      "Cowork"
+    ],
+    scores: [0, 0, 3, 0]
+  },
+  {
+    text: "What does 'context window' mean?",
+    options: [
+      "The chat history panel on the left",
+      "The total amount of text (including conversation history) Claude can 'see' at once",
+      "The popup when you hover over a Claude response",
+      "The number of tabs you have open"
+    ],
+    scores: [0, 3, 0, 0]
+  },
+  {
+    text: "How do you currently use AI in your daily work?",
+    options: [
+      "Mostly for quick questions or drafting",
+      "For research, writing, and some automation",
+      "Embedded in tools (Notion, VS Code, etc.) and via API",
+      "I've built workflows or agents that run with minimal input from me"
+    ],
+    scores: [0, 1, 2, 3]
+  },
+  {
+    text: "Cowork (Claude's desktop automation tool) is primarily useful for...",
+    options: [
+      "Video conferencing",
+      "Automating file management and app tasks on your computer without code",
+      "Writing code collaboratively",
+      "Managing Claude API keys"
+    ],
+    scores: [0, 3, 1, 0]
+  },
+  {
+    text: "What's the difference between Claude Sonnet and Claude Opus?",
+    options: [
+      "They're the same thing with different names",
+      "Sonnet is faster and cheaper; Opus is slower but more capable on complex tasks",
+      "Opus is for images only",
+      "Sonnet is the older model"
+    ],
+    scores: [0, 3, 0, 0]
+  },
+  {
+    text: "Which of these prompting techniques are you familiar with?",
+    options: [
+      "None — I just write naturally",
+      "Chain-of-thought (asking Claude to think step by step)",
+      "Few-shot prompting and explicit output formatting",
+      "All of the above, plus XML tags, role prompting, and multi-turn design"
+    ],
+    scores: [0, 1, 2, 3]
+  }
+];
+
+let currentQ = 0;
+let answers = [];
+let totalScore = 0;
+let skipped = 0;
+
+function startAssessment() {
+  showScreen('screen-assessment');
+  renderQuestion();
+}
+
+function skipToResults(level) {
+  showScreen('screen-results');
+  renderResults(level, 0, true);
+}
+
+function retake() {
+  currentQ = 0; answers = []; totalScore = 0; skipped = 0;
+  showScreen('screen-landing');
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const pct = (currentQ / questions.length) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `Question ${currentQ + 1} of ${questions.length}`;
+
+  document.getElementById('question-area').innerHTML = `
+    <div class="question-card">
+      <div class="question-num">Q${currentQ + 1}</div>
+      <div class="question-text">${q.text}</div>
+      <div class="options">
+        ${q.options.map((o, i) => `
+          <button class="option" onclick="selectOption(${i})" id="opt-${i}">
+            <span class="option-letter">${['A','B','C','D'][i]}</span>
+            <span>${o}</span>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  document.getElementById('next-btn').style.display = 'none';
+  answers[currentQ] = null;
+}
+
+function selectOption(i) {
+  if (answers[currentQ] !== null && answers[currentQ] !== undefined) return;
+  answers[currentQ] = i;
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  document.getElementById('opt-' + i).classList.add('selected');
+  document.getElementById('next-btn').style.display = 'inline-flex';
+}
+
+function nextQuestion() {
+  if (answers[currentQ] !== null && answers[currentQ] !== undefined) {
+    totalScore += questions[currentQ].scores[answers[currentQ]];
+  }
+  currentQ++;
+  if (currentQ >= questions.length) {
+    finishAssessment();
+  } else {
+    renderQuestion();
+  }
+}
+
+function skipQuestion() {
+  skipped++;
+  answers[currentQ] = null;
+  currentQ++;
+  if (currentQ >= questions.length) {
+    finishAssessment();
+  } else {
+    renderQuestion();
+  }
+}
+
+function finishAssessment() {
+  const maxScore = questions.length * 3;
+  const pct = totalScore / maxScore;
+  let level;
+  if (pct < 0.33) level = 'explorer';
+  else if (pct < 0.67) level = 'navigator';
+  else level = 'operator';
+  showScreen('screen-results');
+  renderResults(level, totalScore, false, skipped);
+}
+
+function renderResults(level, score, skippedAll, skippedCount = 0) {
+  const levels = {
+    explorer: {
+      label: 'Level 01 — Explorer',
+      name: 'The Explorer',
+      color: 'var(--accent3)',
+      desc: "You're at the beginning of what's actually a very deep rabbit hole. The good news: the most transformative gains happen early. We'll build your intuition for prompting properly, then layer in Claude Code, Cowork, and integrations — in an order that keeps things constantly novel.",
+      intro: "Built for someone new to Claude's ecosystem. We start with Chat fundamentals that most people skip — and they make a massive difference. Then we move fast."
+    },
+    navigator: {
+      label: 'Level 02 — Navigator',
+      name: 'The Navigator',
+      color: 'var(--accent)',
+      desc: "You've got the basics but there's a gap between 'using Claude' and 'working with Claude'. We'll close that gap: structured prompting, API fundamentals, embedding Claude in your tools, and then Claude Code + Cowork.",
+      intro: "Built for someone comfortable with Claude Chat but not yet using it at full power. We skip the basics and start with what actually changes how you work."
+    },
+    operator: {
+      label: 'Level 03 — Operator',
+      name: 'The Operator',
+      color: 'var(--accent2)',
+      desc: "You know the ecosystem. This path focuses on depth: multi-step agentic workflows, Claude Code for non-trivial projects, Cowork automation chains, and embedding Claude into real production-style workflows.",
+      intro: "Built for power users ready to go deep. We skip fundamentals entirely and focus on what most people haven't figured out yet."
+    }
+  };
+
+  const l = levels[level] || levels['navigator'];
+
+  document.getElementById('level-card-area').innerHTML = `
+    <div class="level-card level-${level}" style="background: var(--surface); border: 1px solid ${l.color}40;">
+      ${!skippedAll && score > 0 ? `
+        <div class="score-ring" style="border-color: ${l.color}; color: ${l.color};">
+          ${score}<span class="score-label">/ 30</span>
+        </div>
+      ` : ''}
+      ${skippedCount > 0 ? `<div class="skipped-notice">⚠ ${skippedCount} question${skippedCount > 1 ? 's' : ''} skipped — result is approximate</div>` : ''}
+      <div class="level-badge" style="color: ${l.color};">${l.label}</div>
+      <div class="level-name" style="color: ${l.color};">${l.name}</div>
+      <div class="level-desc">${l.desc}</div>
+    </div>
+  `;
+
+  document.getElementById('curriculum-intro').textContent = l.intro;
+
+  renderCurriculum(level);
+}
+
+function renderCurriculum(level) {
+  const all = getCurriculum(level);
+  const adhd = getAdhdTips(level);
+
+  document.getElementById('adhd-tips-area').innerHTML = adhd.map(t => `
+    <div class="adhd-tip">
+      <div class="adhd-tip-icon">${t.icon}</div>
+      <div class="adhd-tip-text">${t.text}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('curriculum-area').innerHTML = all.map((m, i) => `
+    <div class="module" id="mod-${i}">
+      <div class="module-header" onclick="toggleModule(${i})">
+        <div class="module-num">0${i+1}</div>
+        <div class="module-title">${m.title}</div>
+        <div class="module-tag ${m.tagClass}">${m.tag}</div>
+        <div class="chevron" id="chev-${i}">▼</div>
+      </div>
+      <div class="module-body" id="body-${i}">
+        <ul class="lesson-list">
+          ${m.lessons.map(l => `
+            <li>
+              <span class="lesson-icon">${l.icon}</span>
+              <span><strong style="color: var(--text);">${l.title}</strong>${l.desc ? ' — ' + l.desc : ''}</span>
+            </li>
+          `).join('')}
+        </ul>
+        ${m.note ? `<div class="lesson-note"><strong>ADHD tip:</strong> ${m.note}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleModule(i) {
+  const body = document.getElementById('body-' + i);
+  const chev = document.getElementById('chev-' + i);
+  body.classList.toggle('open');
+  chev.classList.toggle('open');
+}
+
+function getAdhdTips(level) {
+  return [
+    { icon: '⚡', text: '<strong>Built for your brain:</strong> Every module is self-contained and completable in under 45 minutes. No cliff-hangers that require Module N before Module N+1.' },
+    { icon: '🎲', text: '<strong>Permission to be non-linear:</strong> Spotted something in Module 5 that looks exciting? Start there. The fundamentals will make more sense once you\'re curious about what they enable.' },
+    { icon: '🧪', text: '<strong>Learn by breaking things:</strong> Every lesson has a practical task. Don\'t just read — open Claude and test it immediately. Your brain retains 3× more when your hands are involved.' }
+  ];
+}
+
+function getCurriculum(level) {
+  const explorer = [
+    {
+      title: "Claude Chat — The Right Mental Model",
+      tag: "Chat", tagClass: "tag-chat",
+      note: "This is the module most people skip. Don't. 30 minutes here saves hours of frustration later.",
+      lessons: [
+        { icon: "🧠", title: "What Claude actually is", desc: "Not a search engine, not a calculator — a reasoning system. Why this matters for every prompt you write." },
+        { icon: "💬", title: "Prompting as communication", desc: "Context, intent, constraints. The three things every good prompt needs." },
+        { icon: "🎭", title: "Role prompting", desc: "Getting Claude to behave as an expert, editor, devil's advocate, or research assistant." },
+        { icon: "📋", title: "Formatting outputs", desc: "Markdown, tables, lists — controlling how Claude structures its responses." },
+        { icon: "🔄", title: "Multi-turn conversations", desc: "Claude remembers the thread. How to build on previous responses intelligently." },
+        { icon: "⚙️", title: "Settings and features", desc: "Memory, Projects, Artifacts, Search — what each one does and when to use it." }
+      ]
+    },
+    {
+      title: "Prompting That Actually Works",
+      tag: "Chat", tagClass: "tag-chat",
+      note: "Each technique here is a mini power-up. Learn one per session — don't try to absorb all of them at once.",
+      lessons: [
+        { icon: "🔗", title: "Chain-of-thought prompting", desc: "\"Think step by step\" — why it works and when to use it." },
+        { icon: "📝", title: "Few-shot examples", desc: "Show Claude two or three examples of what you want before asking for the real thing." },
+        { icon: "🏷️", title: "XML tags for structure", desc: "Using <context>, <task>, <format> to keep complex prompts clean." },
+        { icon: "✏️", title: "Iterative refinement", desc: "How to course-correct without starting over." },
+        { icon: "🚫", title: "What NOT to do", desc: "Vague prompts, over-constraining, asking Claude to guess — common failure modes." }
+      ]
+    },
+    {
+      title: "Claude in Your Tools — Embeds & Integrations",
+      tag: "Embed", tagClass: "tag-embed",
+      note: "Pick ONE integration to start. Don't try all of them at once — that's a fast track to abandonment.",
+      lessons: [
+        { icon: "📓", title: "Claude in Notion", desc: "AI writing assistant, database queries, page summarisation." },
+        { icon: "💻", title: "Claude in VS Code", desc: "Installing the extension, inline completions, inline chat." },
+        { icon: "📊", title: "Claude in Excel", desc: "The Excel add-in — formula help, data explanation, cell generation." },
+        { icon: "🌐", title: "Claude in Chrome", desc: "Browsing agent — summarise pages, research, form-fill assistance." },
+        { icon: "🔌", title: "MCP servers explained", desc: "How Claude gets 'plugged into' external tools and why this is a big deal." }
+      ]
+    },
+    {
+      title: "Claude Code — Your First Taste",
+      tag: "Code", tagClass: "tag-code",
+      note: "Don't let 'Code' intimidate you. Claude Code is actually more accessible to non-developers than most coding tools — it does the explaining AND the doing.",
+      lessons: [
+        { icon: "📦", title: "What Claude Code actually is", desc: "Terminal-based agent. It reads files, writes code, runs it, fixes errors — autonomously." },
+        { icon: "🛠️", title: "Installation in 10 minutes", desc: "Step-by-step: Node.js, npm install, first run." },
+        { icon: "🗣️", title: "Your first session", desc: "Giving Claude Code a task in plain English and watching it work." },
+        { icon: "👀", title: "Reading what it does", desc: "Understanding Claude Code's output, file changes, and when to intervene." },
+        { icon: "⚠️", title: "Safe experimentation", desc: "Using version control or test folders — how to play without breaking things." }
+      ]
+    },
+    {
+      title: "Cowork — Desktop Automation Without Code",
+      tag: "Cowork", tagClass: "tag-cowork",
+      note: "This is where things get genuinely exciting. Cowork is the 'I can't believe this is real' moment for most people.",
+      lessons: [
+        { icon: "🖥️", title: "What Cowork does", desc: "File management, app control, task automation — all in plain language." },
+        { icon: "📥", title: "Installing and setting up", desc: "Getting Cowork running on your desktop." },
+        { icon: "🔁", title: "Your first automation", desc: "A practical first workflow: organising files, renaming, or moving documents." },
+        { icon: "🔗", title: "Chaining tasks", desc: "Asking Cowork to do a sequence of things without micromanaging each step." },
+        { icon: "⚡", title: "Where Cowork shines", desc: "The tasks it's extraordinary at — and the ones to avoid." }
+      ]
+    },
+    {
+      title: "Putting It Together — Your Personal Workflow",
+      tag: "Chat", tagClass: "tag-chat",
+      lessons: [
+        { icon: "🗺️", title: "Mapping your actual work", desc: "Which Claude tool fits which part of your day." },
+        { icon: "🔄", title: "Building repeatable prompts", desc: "Prompt templates you use again and again — store them in Notion or a text file." },
+        { icon: "📈", title: "Getting better over time", desc: "How to audit what's working and where to go deeper." },
+        { icon: "🌐", title: "The bigger picture", desc: "Where Claude's ecosystem is heading — what to watch for." }
+      ]
+    }
+  ];
+
+  const navigator = [
+    {
+      title: "Prompting Like an Expert",
+      tag: "Chat", tagClass: "tag-chat",
+      note: "You already know the basics. This module is about systematic precision — prompts that work first time, every time.",
+      lessons: [
+        { icon: "🏗️", title: "Structured system prompts", desc: "Building a system prompt that defines persona, constraints, output format, and edge cases." },
+        { icon: "🏷️", title: "XML-structured prompts", desc: "Using <context>, <task>, <rules>, <format> for complex multi-part requests." },
+        { icon: "🔗", title: "Chain-of-thought for hard problems", desc: "When and how to use step-by-step reasoning — and how to read the chain." },
+        { icon: "🎯", title: "Calibrating confidence", desc: "Asking Claude to flag uncertainty, cite sources, or caveat claims — and why this matters." },
+        { icon: "🔬", title: "Adversarial prompting", desc: "Using Claude to stress-test your own ideas, arguments, or plans." }
+      ]
+    },
+    {
+      title: "The API — Unlocking Claude Programmatically",
+      tag: "Chat", tagClass: "tag-chat",
+      note: "Even if you're not a developer, understanding how the API works makes you dramatically better at using Claude in embedded tools.",
+      lessons: [
+        { icon: "🔑", title: "API keys and the developer console", desc: "Where to get keys, how they work, and how to stay safe." },
+        { icon: "📡", title: "Making your first API call", desc: "Using curl or the Anthropic Workbench — no code required." },
+        { icon: "⚙️", title: "Temperature, max tokens, model choice", desc: "Parameters that change Claude's behaviour and when to tweak them." },
+        { icon: "🗂️", title: "System vs user messages", desc: "How the API structures conversation and why the distinction matters." },
+        { icon: "📦", title: "Choosing the right model", desc: "Haiku vs Sonnet vs Opus — cost, speed, capability tradeoffs." }
+      ]
+    },
+    {
+      title: "Claude Embedded — Getting Real Value in Your Tools",
+      tag: "Embed", tagClass: "tag-embed",
+      note: "Pick your top two tools from this list and go deep rather than skimming all of them.",
+      lessons: [
+        { icon: "📓", title: "Notion + Claude — advanced use", desc: "AI database generation, summarisation pipelines, project planning assistance." },
+        { icon: "💻", title: "VS Code deep dive", desc: "Inline edit, multi-file awareness, custom instructions in the IDE." },
+        { icon: "🌐", title: "Chrome agent — browse + extract", desc: "Using Claude to research, summarise, and extract from live web pages." },
+        { icon: "🔌", title: "MCP servers — connecting Claude to anything", desc: "What MCP is, how to install servers, and what's already available." },
+        { icon: "🔗", title: "Building a personal stack", desc: "Connecting your tools into a coherent Claude-powered workflow." }
+      ]
+    },
+    {
+      title: "Claude Code — Real Projects",
+      tag: "Code", tagClass: "tag-code",
+      note: "Claude Code rewards curiosity. Give it a real problem from your actual work — it performs much better on specific, motivated tasks.",
+      lessons: [
+        { icon: "🗂️", title: "Working with existing codebases", desc: "Pointing Claude Code at a folder and letting it understand context." },
+        { icon: "🔄", title: "Iterative development", desc: "Building something incrementally — how to guide without micromanaging." },
+        { icon: "🐛", title: "Debugging with Claude Code", desc: "Letting it find, diagnose, and fix errors autonomously." },
+        { icon: "📄", title: "Non-code tasks with Claude Code", desc: "File organisation, document processing, data transformation." },
+        { icon: "🛡️", title: "Safe autonomy", desc: "How to give Claude Code freedom while staying in control of what gets changed." }
+      ]
+    },
+    {
+      title: "Cowork — Practical Desktop Automation",
+      tag: "Cowork", tagClass: "tag-cowork",
+      lessons: [
+        { icon: "🖥️", title: "Installation and setup", desc: "Getting Cowork live on your machine." },
+        { icon: "📁", title: "File + folder workflows", desc: "Rename, sort, move, duplicate at scale." },
+        { icon: "🔁", title: "Multi-app sequences", desc: "Cowork across multiple applications in one instruction." },
+        { icon: "📝", title: "Document processing", desc: "Batch read, summarise, extract data from documents." },
+        { icon: "⚠️", title: "Limits and failure modes", desc: "When Cowork gets confused and how to recover." }
+      ]
+    },
+    {
+      title: "System Design — Your Claude-Powered Workflow",
+      tag: "Chat", tagClass: "tag-chat",
+      lessons: [
+        { icon: "🗺️", title: "Workflow mapping", desc: "Which Claude product belongs at which step of your work." },
+        { icon: "📋", title: "Prompt libraries", desc: "Building and maintaining a personal library of your best prompts." },
+        { icon: "🔄", title: "Review loops", desc: "Using Claude to QA and iterate on its own output." },
+        { icon: "📈", title: "Staying current", desc: "How to track new Claude features and integrations as they ship." }
+      ]
+    }
+  ];
+
+  const operator = [
+    {
+      title: "Advanced Prompting Architecture",
+      tag: "Chat", tagClass: "tag-chat",
+      lessons: [
+        { icon: "🏗️", title: "Multi-step prompt chains", desc: "Designing sequences where each Claude output feeds the next prompt." },
+        { icon: "🎭", title: "Persona engineering", desc: "Building sophisticated system prompts that hold complex roles across long conversations." },
+        { icon: "✅", title: "Verification and self-critique", desc: "Getting Claude to check its own outputs before delivering them." },
+        { icon: "🔬", title: "Adversarial testing", desc: "Using Claude to break your own prompts — finding edge cases before they find you." },
+        { icon: "📐", title: "Prompt version control", desc: "Treating prompts like code — versioning, testing, and iterating systematically." }
+      ]
+    },
+    {
+      title: "API — Production-Grade Usage",
+      tag: "Chat", tagClass: "tag-chat",
+      note: "This module assumes you've made API calls before. We're going deep on what most people don't know.",
+      lessons: [
+        { icon: "📦", title: "Batch processing", desc: "The Batch API — sending thousands of requests efficiently and cost-effectively." },
+        { icon: "⚙️", title: "Tool use (function calling)", desc: "Giving Claude structured tools to call — the foundation of agents." },
+        { icon: "📡", title: "Streaming responses", desc: "Real-time output for UX and long-running tasks." },
+        { icon: "💰", title: "Cost optimisation", desc: "Caching, model selection, context compression — keeping costs manageable at scale." },
+        { icon: "🔒", title: "Safety and rate limits", desc: "Building resilient applications that handle errors and limits gracefully." }
+      ]
+    },
+    {
+      title: "Claude Code — Agentic Workflows",
+      tag: "Code", tagClass: "tag-code",
+      note: "Claude Code's real power is agentic loops — tasks that run, self-correct, and complete without hand-holding.",
+      lessons: [
+        { icon: "🤖", title: "Agentic task design", desc: "How to frame tasks so Claude Code can complete them with minimal interruption." },
+        { icon: "🗂️", title: "Multi-file, multi-module projects", desc: "Managing complex codebases — giving Claude Code enough context to reason about architecture." },
+        { icon: "🔄", title: "Test-driven loops", desc: "Letting Claude Code write tests AND code, running them, and iterating until green." },
+        { icon: "🔧", title: "Custom slash commands", desc: "Building your own Claude Code commands for repeated tasks." },
+        { icon: "🌐", title: "MCP integration with Code", desc: "Connecting Claude Code to external APIs and services via MCP servers." }
+      ]
+    },
+    {
+      title: "Cowork — Complex Automation Chains",
+      tag: "Cowork", tagClass: "tag-cowork",
+      lessons: [
+        { icon: "🔗", title: "Multi-app orchestration", desc: "Tasks that span Finder/Explorer, Word, browser, and email in one instruction." },
+        { icon: "📊", title: "Data pipelines", desc: "Extract → process → output workflows using only Cowork instructions." },
+        { icon: "📅", title: "Scheduled and repeating tasks", desc: "Setting up Cowork to run automations without prompting each time." },
+        { icon: "⚠️", title: "Failure recovery", desc: "How to build instructions that degrade gracefully when something unexpected happens." }
+      ]
+    },
+    {
+      title: "Embedded Claude — MCP and Deep Integrations",
+      tag: "Embed", tagClass: "tag-embed",
+      lessons: [
+        { icon: "🔌", title: "Building custom MCP servers", desc: "Connecting Claude to any API or internal tool using MCP — a practical walkthrough." },
+        { icon: "📓", title: "Notion as a Claude workspace", desc: "Using Notion databases as dynamic context for Claude workflows." },
+        { icon: "🧪", title: "IDE integration — advanced", desc: "Multi-file edits, refactoring at scale, documentation generation in VS Code." },
+        { icon: "🌐", title: "Chrome agent + data extraction", desc: "Building research and monitoring workflows using the Claude browser agent." }
+      ]
+    },
+    {
+      title: "Building a Personal AI System",
+      tag: "Chat", tagClass: "tag-chat",
+      lessons: [
+        { icon: "🗺️", title: "Systems thinking", desc: "Designing Claude usage that scales — not a collection of tricks, but a coherent system." },
+        { icon: "📋", title: "Prompt and workflow libraries", desc: "Maintaining a personal library that grows and improves over time." },
+        { icon: "🔄", title: "Continuous improvement loops", desc: "Auditing what's working, what's slow, and where Claude is underused." },
+        { icon: "🌐", title: "Staying at the frontier", desc: "How to track new capabilities and build them into your workflow immediately." }
+      ]
+    }
+  ];
+
+  if (level === 'explorer') return explorer;
+  if (level === 'operator') return operator;
+  return navigator;
+}
+</script>
+
+</body>
+</html>
